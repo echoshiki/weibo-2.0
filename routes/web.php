@@ -18,4 +18,5 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', 'StaticsController@index')->name('home');
+Route::resource('users', 'UsersController');
 
