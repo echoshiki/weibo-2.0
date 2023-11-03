@@ -8,7 +8,7 @@
 </head>
 <body>
     @include('layouts._header')
-    <div class="my-0 mx-auto w-10/12 lg:w-4/5 py-5">
+    <div class="2xl:max-w-screen-2xl xl:max-w-screen-xl px-4 mx-auto">
         @yield('content')
     </div>
     @include('layouts._footer')

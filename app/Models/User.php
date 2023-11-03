@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -42,4 +43,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public static function boot() {
+        parent::boot();
+        static::creating(function($user) {
+            $user->activation_token = Str::random(10);
+        });
+    }
+
+    public function gravatar($size = '100') {
+        $hash = md5(strtolower(trim($this->attributes['email'])));
+        return "https://cdn.v2ex.com/gravatar/$hash?d=retro&s=$size";
+    }
+    
+    
 }

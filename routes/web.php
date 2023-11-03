@@ -18,5 +18,11 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', 'StaticsController@index')->name('home');
+
 Route::resource('users', 'UsersController');
 
+Route::get('login', 'SessionsController@create')->name('login');
+Route::post('login', 'SessionsController@store')->name('login');
+Route::delete('logout', 'SessionsController@destroy')->name('logout');
+
+Route::get('users/confirm/{token}', 'UsersController@confirmEmail')->name('users.confirm');
