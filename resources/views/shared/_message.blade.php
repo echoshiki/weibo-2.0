@@ -9,7 +9,7 @@
 
 @foreach (['success', 'warning', 'notice', 'danger'] as $msg)
     @if (session()->has($msg))
-    <div class="{{ $alert_style[$msg] }} w-full p-4">
+    <div class="{{ $alert_style[$msg] }} w-full p-4 my-4">
         <p class="text-sm">{{ session($msg) }}</p>
     </div>
     @endif

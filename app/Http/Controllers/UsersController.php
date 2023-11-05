@@ -12,7 +12,12 @@ class UsersController extends Controller
     public function __construct() {
         $this->middleware('guest',[
             'only' => ['create', 'store']
-        ]);
+        ]);     
+    }
+
+    public function index() {
+        $users = User::paginate(10);
+        return view('users.index', compact('users'));
     }
 
     public function create() {
@@ -64,6 +69,32 @@ class UsersController extends Controller
         return view('users.show', compact('user'));
     }
 
+    public function edit(User $user) {
+        $this->authorize('update', $user);
+        return view('users.edit', compact('user'));
+    }
 
-        
+    public function update(Request $request, User $user) {
+        $this->authorize('update', $user);
+        $this->validate($request, [
+            'name' => 'required|max:255',
+            'password' => 'nullable|confirmed|min:6'
+        ]);
+        $data = [];
+        $data['name'] = $request->name;
+        if ($request->password) {
+            $data['password'] = bcrypt($request->password);
+        }
+        $user->update($data);
+        session()->flash('success', '用户信息更新成功！');
+        return redirect()->route('users.show', $user->id);
+    }
+
+    public function destroy(User $user) {
+        $this->authorize('destroy', $user);
+        $user->delete();
+        session()->flash('success', '用户删除成功！');
+        return back();
+    }
+      
 }

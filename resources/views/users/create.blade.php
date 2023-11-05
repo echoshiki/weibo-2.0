@@ -5,8 +5,7 @@
 
     @include('shared._title', ['title' => '注册', 'subtitle' => '欢迎加入这里成为我们的一员 :)'])
 
-    <form action="{{ route('users.store') }}" method="post" class="grid grid-cols-1 gap-6 max-w-lg"> 
-        @include('shared._errors')   
+    <form action="{{ route('users.store') }}" method="post" class="grid grid-cols-1 gap-6 max-w-lg mx-auto sm:mx-0">  
         @csrf
         <label for="name" class="block">
             <p class="text-sm">昵称：</p>
@@ -33,7 +32,7 @@
     </form>
 
     <div class="block">
-        <p class="text-sm leading-8">已经有账号？这就去 <a href="{{ route('login') }}" class="text-blue-500">登录</a> !</p>
+        <p class="text-sm leading-8 text-center sm:text-left">已经有账号？这就去 <a href="{{ route('login') }}" class="text-blue-500">登录</a> !</p>
     </div>
 
 
