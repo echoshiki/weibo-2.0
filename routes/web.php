@@ -37,3 +37,6 @@ Route::post('password/find', 'PasswordController@sendLinkEmail')->name('password
 # 重置密码
 Route::get('password/reset/{token}', 'PasswordController@showResetForm')->name('password.reset');
 Route::put('password/reset', 'PasswordController@reset')->name('password.update');
+
+# 动态路由
+Route::resource('posts', 'PostsController');
