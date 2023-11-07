@@ -3,9 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
 
 class PostsController extends Controller
 {
+
+    public function __construct() {
+        $this->middleware('auth',[
+            'except' => ['index']
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -27,7 +36,18 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'content' => 'required|max:140',
+        ]);
+
+        /** @var \App\Models\User $user*/
+        $user = Auth::user();
+        $user->posts()->create([
+            'content' => $request->content
+        ]);
+
+        session()->flash('success', '发布成功！');
+        return redirect()->back();
     }
 
     /**
@@ -57,8 +77,11 @@ class PostsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Post $post) 
     {
-        //
+        $this->authorize('destroy', $post);
+        $post->delete();
+        session()->flash('success', '删除动态成功！');
+        return redirect()->back();
     }
 }
