@@ -97,5 +97,33 @@ class UsersController extends Controller
         session()->flash('success', '用户删除成功！');
         return back();
     }
+
+    public function follow(User $user) {
+        # 授权验证是否为自己
+        $this->authorize('follow', $user);
+        /** @var App\Models\User $current_user */
+        $current_user = Auth::user();
+        # 关注者里是否包含目标对象
+        if ($current_user->followings->contains($user)) {
+            $current_user->unfollow($user->id);
+        } else {
+            $current_user->follow($user->id);
+        }
+        return redirect()->back();
+    }
+
+    public function followings(User $user) {
+        $users = $user->followings()->orderBy('created_at', 'desc')->paginate(30);
+        $title = "关注列表";
+        $subtitle = "这里显示了您关注的所有用户";
+        return view('users.follow', compact(['users', 'title', 'subtitle']));
+    }
+
+    public function followers(User $user) {
+        $users = $user->followers()->orderBy('created_at', 'desc')->paginate(40);
+        $title = "粉丝列表";
+        $subtitle = "这里显示了您的所有粉丝";
+        return view('users.follow', compact(['users', 'title', 'subtitle']));
+    }
       
 }

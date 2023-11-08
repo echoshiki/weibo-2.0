@@ -9,6 +9,8 @@
 <body>
     @include('layouts._header')
     <div class="2xl:max-w-screen-2xl xl:max-w-screen-xl px-4 mx-auto">
+        @include('shared._errors')   
+        @include('shared._message')
         @yield('content')
     </div>
     @include('layouts._footer')

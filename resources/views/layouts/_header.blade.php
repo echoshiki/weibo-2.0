@@ -7,8 +7,8 @@
         <div class="w-66 flex font-sans font-light text-sm">
 
             <div class="flex justify-center space-x-2">
-                <a href="/" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium">首页</a>
-                <a href="/" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">广场</a>
+                <a href="{{ route('home') }}" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium">首页</a>
+                <a href="{{ route('mall') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">广场</a>
                 <a href="{{ route('users.index') }}" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">用户</a>
             </div>
 

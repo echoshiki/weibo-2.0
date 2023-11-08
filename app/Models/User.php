@@ -6,8 +6,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Str;
+use App\Models\Post;
 
 class User extends Authenticatable
 {
@@ -58,6 +60,41 @@ class User extends Authenticatable
 
     public function posts() {
         return $this->hasMany(Post::class);
+    }
+
+    # 获取所有的粉丝
+    public function followers() {
+        return $this->belongsToMany(User::class, 'followers', 'user_id', 'follower')->withTimestamps();
+    }
+
+    # 获取所有的关注
+    public function followings() {
+        return $this->belongsToMany(User::class, 'followers', 'follower', 'user_id')->withTimestamps();
+    }
+
+    public function feed() {
+        $ids = $this->followings->pluck('id')->toArray();
+        array_push($ids, $this->id);
+        return Post::whereIn('user_id', $ids)->with('user');
+    }
+
+    # 关注
+    public function follow($user_ids) {
+        if (!is_array($user_ids)) {
+            $user_ids = compact('user_ids');
+        }
+        $this->followings()->sync($user_ids, false);
+    }
+
+    public function unfollow($user_ids) {
+        if (!is_array($user_ids)) {
+            $user_ids = compact('user_ids');
+        }
+        $this->followings()->detach($user_ids);
+    }
+
+    public function isFollowing(User $user) {
+        return $this->followings->contains($user->id);
     }
       
 }

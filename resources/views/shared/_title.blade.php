@@ -8,6 +8,3 @@
         {{ $subtitle }}
     </p>
 </div>
-
-@include('shared._errors')   
-@include('shared._message')

@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', 'StaticsController@index')->name('home');
+Route::get('mall', 'StaticsController@mall')->name('mall');
 
 # 用户CRUD
 Route::resource('users', 'UsersController');
@@ -40,3 +41,11 @@ Route::put('password/reset', 'PasswordController@reset')->name('password.update'
 
 # 动态路由
 Route::resource('posts', 'PostsController');
+
+# 关注列表 & 粉丝列表
+Route::get('users/{user}/followings', 'UsersController@followings')->name('users.followings');
+Route::get('users/{user}/followers', 'UsersController@followers')->name('users.followers');
+
+# 关注 & 取消关注
+Route::post('users/followers/{user}', 'UsersController@follow')->name('users.follow');
+Route::delete('user/followers/{user}', 'UsersController@follow')->name('users.unfollow');
